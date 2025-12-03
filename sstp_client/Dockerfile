@@ -13,7 +13,11 @@ RUN apt-get update && \
         bash && \
     rm -rf /var/lib/apt/lists/*
 
+# Кладемо скрипт запуску в корінь контейнера
 COPY run.sh /run.sh
+
+# Робимо виконуваним
 RUN chmod +x /run.sh
 
+# Запускаємо аддон
 CMD ["/run.sh"]
