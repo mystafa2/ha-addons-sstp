@@ -16,16 +16,15 @@ if [ -z "$SERVER" ] || [ -z "$USERNAME" ] || [ -z "$PASSWORD" ]; then
   exit 1
 fi
 
-sstpc "$SERVER" \
-  --username "$USERNAME" \
+sstpc \
+  --user "$USERNAME" \
   --password "$PASSWORD" \
-  --require-mschap-v2 \
-  --noipdefault \
-  --defaultroute \
-  --usepeerdns \
-  --debug \
-  /dev/ppp &
-
+  --cert-warn \
+  --log-stderr \
+  --ipparam sstp \
+  "$SERVER" \
+  -- \
+  usepeerdns defaultroute noauth &
 VPN_PID=$!
 
 wait "$VPN_PID"
