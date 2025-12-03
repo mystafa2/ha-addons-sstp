@@ -1,5 +1,5 @@
-name: "SSTP VPN Client"
-version: "2.0.6"
+name: "SSTP VPNClient"
+version: "1.0.0"
 slug: "sstp_client"
 description: "SSTP VPN client for Home Assistant"
 arch:
@@ -7,8 +7,8 @@ arch:
   - amd64
 startup: services
 boot: auto
-host_network: true
 init: false
+host_network: true
 
 privileged:
   - NET_ADMIN
@@ -23,8 +23,3 @@ schema:
   server: str
   username: str
   password: password
-
-
-
-
-
