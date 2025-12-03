@@ -14,8 +14,6 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 COPY run.sh /run.sh
+RUN chmod +x /run.sh
 
-# ВИПАЛЮЄМО Windows-CR (\r) і робимо скрипт виконуваним
-RUN sed -i 's/\r$//' /run.sh && chmod +x /run.sh
-
-CMD ["/bin/sh", "/run.sh"]
+CMD ["/run.sh"]
