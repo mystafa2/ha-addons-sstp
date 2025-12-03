@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+set -e
 
 CONFIG_PATH=/data/options.json
 
@@ -10,13 +11,12 @@ echo "=== SSTP CLIENT START ==="
 echo "Server: $SERVER"
 echo "Username: $USERNAME"
 
-if [ -z "$SERVER" ] || [ -z "$USERNAME" ] || [ -z "$PASSWORD" ]; then
-  echo "ERROR: server / username / password not set in add-on options."
+if [[ -z "$SERVER" || -z "$USERNAME" || -z "$PASSWORD" ]]; then
+  echo "ERROR: server / username / password not set in options.json"
   sleep 300
   exit 1
 fi
 
-# Підняти SSTP-тунель як ppp0
 sstpc "$SERVER" \
   --username "$USERNAME" \
   --password "$PASSWORD" \
@@ -26,16 +26,11 @@ sstpc "$SERVER" \
   --usepeerdns \
   --debug \
   /dev/ppp &
-
 VPN_PID=$!
 
-echo "SSTP client started, pid=$VPN_PID"
+wait "$VPN_PID"
+EXIT=$?
 
-# Тупо чекаємо, поки процес живий, щоб контейнер не впав
-wait $VPN_PID
-EXIT_CODE=$?
-
-echo "SSTP client exited with code $EXIT_CODE"
+echo "SSTP client exited with code $EXIT"
 sleep 5
-exit $EXIT_CODE
-
+exit $EXIT
