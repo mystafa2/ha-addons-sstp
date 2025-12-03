@@ -1,5 +1,4 @@
-#!/bin/bash
-set -e
+#!/bin/sh
 
 CONFIG_PATH=/data/options.json
 
@@ -11,7 +10,7 @@ echo "=== SSTP CLIENT START ==="
 echo "Server: $SERVER"
 echo "Username: $USERNAME"
 
-if [[ -z "$SERVER" || -z "$USERNAME" || -z "$PASSWORD" ]]; then
+if [ -z "$SERVER" ] || [ -z "$USERNAME" ] || [ -z "$PASSWORD" ]; then
   echo "ERROR: server / username / password not set in options.json"
   sleep 300
   exit 1
@@ -26,6 +25,7 @@ sstpc "$SERVER" \
   --usepeerdns \
   --debug \
   /dev/ppp &
+
 VPN_PID=$!
 
 wait "$VPN_PID"
@@ -33,4 +33,4 @@ EXIT=$?
 
 echo "SSTP client exited with code $EXIT"
 sleep 5
-exit $EXIT
+exit "$EXIT"
