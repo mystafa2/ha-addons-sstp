@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+set -e
 
 CONFIG_PATH=/data/options.json
 
@@ -10,21 +11,23 @@ echo "=== SSTP CLIENT START ==="
 echo "Server: $SERVER"
 echo "Username: $USERNAME"
 
-if [ -z "$SERVER" ] || [ -z "$USERNAME" ] || [ -z "$PASSWORD" ]; then
+if [[ -z "$SERVER" || -z "$USERNAME" || -z "$PASSWORD" ]]; then
   echo "ERROR: server / username / password not set in options.json"
   sleep 300
   exit 1
 fi
 
 sstpc \
+  --log-level 4 \
+  --tls-ext \
   --user "$USERNAME" \
   --password "$PASSWORD" \
-  --cert-warn \
-  --log-stderr \
-  --ipparam sstp \
   "$SERVER" \
   -- \
-  usepeerdns defaultroute noauth &
+  usepeerdns defaultroute noauth \
+  refuse-eap refuse-pap refuse-chap refuse-mschap \
+  require-mschap-v2 \
+  nodeflate nobsdcomp &
 VPN_PID=$!
 
 wait "$VPN_PID"
