@@ -38,3 +38,4 @@ EXIT_CODE=$?
 echo "SSTP client exited with code $EXIT_CODE"
 sleep 5
 exit $EXIT_CODE
+
