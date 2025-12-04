@@ -15,9 +15,11 @@ RUN apt-get update && \
 
 # Копіюємо run.sh з цієї ж папки аддона
 COPY run.sh /run.sh
+COPY EXISTS.TXT /EXISTS.TXT
 
 # Робимо його виконуваним
 RUN chmod +x /run.sh
 
 # Команда за замовчуванням
 CMD ["/run.sh"]
+
